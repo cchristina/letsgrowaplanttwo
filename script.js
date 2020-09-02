@@ -9,6 +9,7 @@ class plant {
         //ideal ratio needed to grow, default is 1:1:1 ratio but possibly will make subclasses with different things (like succulents), will allow for some margin of error
 
         this.ratio = { "light": 1, "water": 1, "nutrients": 1 };
+        this.wiggleRoom = 0.5; //how much margin of error is allowed in the ratios
 
         this.size = 1; //how big it is
         this.last = 1; //1 if healthy bud, 0 if wilting bud
@@ -32,8 +33,50 @@ class plant {
         this.size++;
     }
 
+    wilt() {
+        this.size--;
+    }
+
     //checks if current ratios are close enough to ideal
     checkHealth() {
+
+        let actualWaterLight = Math.round(this.water / this.light);
+        let idealWaterLight = Math.round(this.ratio['water'] / this.ratio['light']);
+
+        let waterLightRange = [idealWaterLight - this.wiggleRoom, idealWaterLight + this.wiggleRoom];
+
+        let actualWaterNutrients = Math.round(this.water / this.nutrients);
+        let idealWaterNutrients = Math.round(this.ratio['water'] / this.ratio['nutrients']);
+
+        let waterNutrientsRange = [idealWaterNutrients - this.wiggleRoom, idealWaterNutrients + this.wiggleRoom];
+
+        return actualWaterLight > waterLightRange[0] && actualWaterLight < waterLightRange[1] && actualWaterNutrients > waterNutrientsRange[0] && actualWaterNutrients < waterNutrientsRange[1];
+
+
+    }
+
+    updateHealth() {
+        let newHealth = this.checkHealth();
+
+        if (newHealth) {
+            if (this.last == 1) { //already healthy and gets new health
+                this.grow();
+                return [1, 1];
+            } else { //previously sick but gets new health
+                this.last = 1; //yay the plant is getting better
+                return [1, 0];
+            }
+
+        } else {
+            if (this.last == 1) { // prebiously healthy but poor new health
+                this.last = 0; //sets up for wilting
+                return [0, 1];
+            } else {
+                this.wilt(); // wilts because it was doing poorly and still bad health
+                return [0, 0];
+            }
+
+        }
 
 
     }
@@ -43,17 +86,66 @@ class plant {
         if (this.last == 1) {
             base = "&#x1F331;"
         } else {
-            base = "&x1F33E;"
+            base = "&#x1F33E;"
+
         }
 
         for (let i = 0; i < this.size - 1; i++) {
             base = "&#x1F33F;" + base;
         }
 
+        console.log(base);
         return base;
 
     }
 
 
 
+
 }
+
+
+
+
+
+let myPlant = new plant();
+
+let lightSlider = $('#light');
+let waterSlider = $('#water');
+let nutrientSlider = $('#nutrients');
+
+let nextRound = $('#next');
+
+
+lightSlider.click(function() {
+    myPlant.addLight(1);
+    lightSlider.html('&#x1F31E;' + myPlant.light);
+
+})
+
+waterSlider.click(function() {
+
+    myPlant.addWater(1);
+    waterSlider.html('&#x1F4A7;' + myPlant.water);
+
+
+})
+
+
+
+nutrientSlider.click(function() {
+
+    myPlant.addNutrients(1);
+    nutrientSlider.html('&#x1F4A9;' + myPlant.water);
+
+
+
+})
+
+nextRound.click(function() {
+
+    myPlant.updateHealth();
+    $('#plants').html(myPlant.show());
+
+
+})
