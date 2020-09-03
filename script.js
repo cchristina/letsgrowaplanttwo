@@ -1,4 +1,4 @@
-class plant {
+class Plant {
     constructor() {
 
         //the three pieces that make up the growth of our plant
@@ -104,15 +104,41 @@ class plant {
 
 }
 
+class Succulent extends Plant {
+
+    constructor() {
+        super();
+        this.light = 2;
+        this.water = 1;
+        this.nutrients = 2;
+
+        //ideal ratio needed to grow, default is 1:1:1 ratio but possibly will make subclasses with different things (like succulents), will allow for some margin of error
+
+        this.ratio = { "light": 2, "water": 1, "nutrients": 2 };
+        this.wiggleRoom = 1;
+    }
+
+}
 
 
 
 
-let myPlant = new plant();
+
+let myPlant = new Plant();
+// let myPlant = new Succulent();
 
 let lightSlider = $('#light');
 let waterSlider = $('#water');
 let nutrientSlider = $('#nutrients');
+
+lightSlider.html('&#x1F31E;' + myPlant.light);
+waterSlider.html('&#x1F4A7;' + myPlant.water);
+nutrientSlider.html('&#x1F4A9;' + myPlant.nutrients);
+
+
+
+
+
 
 let nextRound = $('#next');
 
@@ -136,7 +162,7 @@ waterSlider.click(function() {
 nutrientSlider.click(function() {
 
     myPlant.addNutrients(1);
-    nutrientSlider.html('&#x1F4A9;' + myPlant.water);
+    nutrientSlider.html('&#x1F4A9;' + myPlant.nutrients);
 
 
 
