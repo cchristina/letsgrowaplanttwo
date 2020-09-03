@@ -13,7 +13,7 @@ class Plant {
 
         this.size = 1; //how big it is
         this.last = 1; //1 if healthy bud, 0 if wilting bud
-        this.height = 0; //start out as a baby plant 
+        // this.height = 0; //start out as a baby plant 
 
     }
 
@@ -121,10 +121,85 @@ class Succulent extends Plant {
 }
 
 
+class Environment {
+
+    constructor() {
+        this.light = 0;
+        this.water = 0;
+        this.nutrients = 0;
+
+
+    }
+
+    storm(severity) {
+
+        this.water += severity;
+        $("#updates").html("a storm blew in");
+    }
+
+    drought(severity) {
+
+        this.water -= severity;
+        $("#updates").html("there's a drought!");
+
+
+    }
+
+    clouds(cover) {
+
+        this.light -= cover;
+        $("#updates").html("it's cloudy today");
+
+    }
+
+    sunny(brightness) {
+
+        this.light += brightness;
+        $("#updates").html("not a cloud in site");
+
+    }
+
+    animals(herdsize) {
+
+        this.nutrients += herdsize;
+        $("#updates").html("look at all the animals!");
+
+    }
+
+    weeds(amount) {
+
+        this.nutrients -= amount;
+        $("#updates").html("the weeds are taking over!");
+
+
+    }
+
+
+    determine() {
+        let events = [this.storm(), this.drought(), this.clouds(), this.sunny(), this.animals(), this.weeds()];
+        let idx = Math.floor(Math.random() * 6);
+        let scale = Math.floor(Math.random() * 3);
+
+        events[idx](scale);
+        // return [idx, scale];
+
+
+
+
+    }
+
+
+
+}
+
 
 
 
 let myPlant = new Plant();
+let myEnvironment = new Environment();
+
+
+
 // let myPlant = new Succulent();
 
 let lightSlider = $('#light');
@@ -171,6 +246,7 @@ nutrientSlider.click(function() {
 nextRound.click(function() {
 
     myPlant.updateHealth();
+    // environment will randomly choose an event and severity of it
     $('#plants').html(myPlant.show());
 
 
