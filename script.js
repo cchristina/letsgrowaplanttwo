@@ -1,10 +1,113 @@
-class Plant {
+class Environment {
+
     constructor() {
+        this.light = 1;
+        this.water = 1;
+        this.nutrients = 1;
+        this.plants = []
+
+
+    }
+
+    storm(amount) {
+        this.water += amount;
+        $("#updates").html("a storm blew in");
+
+    }
+
+
+    drought(amount) {
+        this.water -= amount;
+        $("#updates").html("it's dry as a bone");
+
+    }
+
+
+
+
+
+    sunny(amount) {
+        this.light += amount;
+        $("#updates").html("not a cloud in site");
+
+    }
+
+    clouds(amount) {
+        this.light -= amount;
+        $("#updates").html("it's cloudy today");
+
+    }
+
+    animals(amount) {
+        this.nutrients += amount;
+        $("#updates").html("look at all the animals!");
+
+    }
+
+    weeds(amount) {
+        this.nutrients -= amount;
+        $("#updates").html("the weeds are taking over!");
+
+    }
+
+
+
+    // events = [this.storm, this.drought, this.clouds, this.sunny, this.animals, this.weeds];
+    events = [this.storm, this.drought, this.clouds, this.sunny, this.animals, this.weeds];
+
+
+
+    determine() {
+        // let events = [this.storm(), this.drought(), this.clouds(), this.sunny(), this.animals(), this.weeds()];
+        let idx = Math.floor(Math.random() * this.events.length);
+        let scale = Math.floor(Math.random() * 4 + 1);
+
+
+        var func = this.events[idx];
+
+        func.call(this, scale);
+        // this.clouds(1);
+        // return [idx, scale];
+
+
+
+
+    }
+
+    updatePlants() {
+
+        // this.determine();
+
+        for (var i = 0; i < this.plants.length; i++) {
+            console.log(plants[i]);
+            this.plants[i].addLight(this.light);
+            this.plants[i].addWater(this.water);
+            this.plants[i].addNutrients(this.nutrients);
+
+            this.plants[i].updateHealth();
+
+        }
+
+        this.water = 0;
+        this.light = 0;
+        this.nutrients = 0;
+
+    }
+
+
+}
+
+
+class Plant {
+    constructor(env, id) {
 
         //the three pieces that make up the growth of our plant
         this.light = 0;
         this.water = 0;
         this.nutrients = 0;
+        env.plants.push(this);
+        this.id = id;
+
 
         //ideal ratio needed to grow, default is 1:1:1 ratio but possibly will make subclasses with different things (like succulents), will allow for some margin of error
 
@@ -39,6 +142,7 @@ class Plant {
 
     //checks if current ratios are close enough to ideal
     checkHealth() {
+
 
         let actualWaterLight = Math.round(this.water / this.light);
         let idealWaterLight = Math.round(this.ratio['water'] / this.ratio['light']);
@@ -84,17 +188,18 @@ class Plant {
     show() {
         let base = "";
         if (this.last == 1) {
-            base = "&#x1F331;"
+            base = "<br>&#x1F331;"
         } else {
-            base = "&#x1F33E;"
+            base = "<br>&#x1F33E;"
 
         }
 
         for (let i = 0; i < this.size - 1; i++) {
-            base = "&#x1F33F;" + base;
+            base += "<br>&#x1F33F;";
+
         }
 
-        console.log(base);
+        // console.log(base);
         return base;
 
     }
@@ -121,82 +226,12 @@ class Succulent extends Plant {
 }
 
 
-class Environment {
 
-    constructor() {
-        this.light = 0;
-        this.water = 0;
-        this.nutrients = 0;
+let plantids = ["plants-1", "plants-2", "plants-3", "plants-4", "plants-5", "plants-6", "plants-7", "plants-8"]
 
 
-    }
-
-    storm(severity) {
-
-        this.water += severity;
-        $("#updates").html("a storm blew in");
-    }
-
-    drought(severity) {
-
-        this.water -= severity;
-        $("#updates").html("there's a drought!");
-
-
-    }
-
-    clouds(cover) {
-
-        this.light -= cover;
-        $("#updates").html("it's cloudy today");
-
-    }
-
-    sunny(brightness) {
-
-        this.light += brightness;
-        $("#updates").html("not a cloud in site");
-
-    }
-
-    animals(herdsize) {
-
-        this.nutrients += herdsize;
-        $("#updates").html("look at all the animals!");
-
-    }
-
-    weeds(amount) {
-
-        this.nutrients -= amount;
-        $("#updates").html("the weeds are taking over!");
-
-
-    }
-
-
-    determine() {
-        let events = [this.storm(), this.drought(), this.clouds(), this.sunny(), this.animals(), this.weeds()];
-        let idx = Math.floor(Math.random() * 6);
-        let scale = Math.floor(Math.random() * 3);
-
-        events[idx](scale);
-        // return [idx, scale];
-
-
-
-
-    }
-
-
-
-}
-
-
-
-
-let myPlant = new Plant();
 let myEnvironment = new Environment();
+let myPlant = new Plant(myEnvironment, "plants-4");
 
 
 
@@ -245,9 +280,15 @@ nutrientSlider.click(function() {
 
 nextRound.click(function() {
 
-    myPlant.updateHealth();
-    // environment will randomly choose an event and severity of it
-    $('#plants').html(myPlant.show());
+    // myPlant.updateHealth();
+    myEnvironment.updatePlants();
+    console.log(myPlant.light, myPlant.water, myPlant.nutrients);
+    lightSlider.html('&#x1F31E;' + myPlant.light);
+    waterSlider.html('&#x1F4A7;' + myPlant.water);
+    nutrientSlider.html('&#x1F4A9;' + myPlant.nutrients);
+    console.log(myPlant.id);
+
+    $("#" + myPlant.id).html(myPlant.show());
 
 
 })

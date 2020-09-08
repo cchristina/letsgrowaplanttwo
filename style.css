@@ -1,0 +1,24 @@
+#grass {
+    position: absolute;
+    bottom: 0;
+}
+
+#filler-1 {
+    position: absolute;
+    bottom: 0;
+}
+
+#filler-2 {
+    position: absolute;
+    bottom: 0;
+}
+
+#plants {
+    position: absolute;
+    bottom: 0;
+}
+
+td {
+    /* height: 50px; */
+    vertical-align: bottom;
+}
