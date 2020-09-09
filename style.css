@@ -3,6 +3,11 @@
     bottom: 0;
 }
 
+#plants {
+    position: absolute;
+    bottom: 0;
+}
+
 #filler-1 {
     position: absolute;
     bottom: 0;
@@ -16,6 +21,7 @@
 #plants {
     position: absolute;
     bottom: 0;
+    color: green;
 }
 
 td {
