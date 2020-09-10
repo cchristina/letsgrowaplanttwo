@@ -79,7 +79,7 @@ class Environment {
         // this.determine();
 
         for (var i = 0; i < this.plants.length; i++) {
-            console.log(plants[i]);
+
             this.plants[i].addLight(this.light);
             this.plants[i].addWater(this.water);
             this.plants[i].addNutrients(this.nutrients);
@@ -228,12 +228,26 @@ class Succulent extends Plant {
 
 
 let plantids = ["plants-1", "plants-2", "plants-3", "plants-4", "plants-5", "plants-6", "plants-7", "plants-8"]
+let shuffledPlants = [];
 
+var startingLen = plantids.length;
+for (i = 0; i < startingLen; i++) {
+
+
+
+    var idx = Math.floor(Math.random() * plantids.length);
+    var nextPlant = plantids.splice(idx, 1);
+    console.log("LOOK: ", nextPlant, nextPlant[0]);
+    shuffledPlants.push(nextPlant[0]);
+}
 
 let myEnvironment = new Environment();
-let plantIdx = Math.floor(Math.random() * plantids.length);
+let plantIdx = Math.floor(Math.random() * shuffledPlants.length);
 
-let myPlant = new Plant(myEnvironment, plantids.splice(plantIdx));
+// let myPlant = new Plant(myEnvironment, plantids.splice(plantIdx));
+var nextId = shuffledPlants.pop();
+console.log("next id: ", nextId);
+let myPlant = new Plant(myEnvironment, nextId);
 
 
 
@@ -253,14 +267,16 @@ nutrientSlider.html('&#x1F4A9;' + myEnvironment.plants[0].nutrients);
 let newPlant = $('#plus');
 
 newPlant.click(function() {
+    // 
+    // let plantIdx = Math.floor(Math.random() * plantids.length);
+    let plantIdx = myEnvironment.plants.length;
 
-    let plantIdx = Math.floor(Math.random() * plantids.length);
     console.log("new plant idx: ", plantIdx);
     // let plantId = plantids.splice(plantIdx);
-    let plantId = plantids.pop();
+    let plantId = shuffledPlants.pop();
     // #look into array.filter() and findbyindex 
 
-    console.log(plantId);
+
     let myPlant = new Plant(myEnvironment, plantId);
 
 
@@ -317,13 +333,14 @@ nextRound.click(function() {
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
         // debugger
-        console.log(typeof(plant));
+
         lightSlider.html('&#x1F31E;' + plant.light);
         waterSlider.html('&#x1F4A7;' + plant.water);
         nutrientSlider.html('&#x1F4A9;' + plant.nutrients);
         // console.log(plant.id);
 
         $("#" + plant.id).html(plant.show());
+
 
     }
 
