@@ -248,18 +248,32 @@ let plantIdx = Math.floor(Math.random() * shuffledPlants.length);
 var nextId = shuffledPlants.pop();
 console.log("next id: ", nextId);
 let myPlant = new Plant(myEnvironment, nextId);
+$('#light-' + nextId).show();
+$('#water-' + nextId).show();
+$('#nutrients-' + nextId).show();
+
 
 
 
 // let myPlant = new Succulent();
 
-let lightSlider = $('#light');
-let waterSlider = $('#water');
-let nutrientSlider = $('#nutrients');
+$('.light').hide();
+$('.water').hide();
+$('.nutrients').hide();
 
-lightSlider.html('&#x1F31E;' + myEnvironment.plants[0].light);
-waterSlider.html('&#x1F4A7;' + myEnvironment.plants[0].water);
-nutrientSlider.html('&#x1F4A9;' + myEnvironment.plants[0].nutrients);
+let lightSlider = $('.light');
+let waterSlider = $('.water');
+let nutrientSlider = $('.nutrients');
+
+
+
+$('#light-0').show();
+$('#water-0').show();
+$('#nutrients-0').show();
+
+lightSlider.html('&#x1F31E;' + myEnvironment.light);
+waterSlider.html('&#x1F4A7;' + myEnvironment.water);
+nutrientSlider.html('&#x1F4A9;' + myEnvironment.nutrients);
 
 
 
@@ -272,6 +286,10 @@ newPlant.click(function() {
     let plantIdx = myEnvironment.plants.length;
 
     console.log("new plant idx: ", plantIdx);
+
+    $('#light-' + plantIdx).show();
+    $('#water-' + plantIdx).show();
+    $('#nutrients-' + plantIdx).show();
     // let plantId = plantids.splice(plantIdx);
     let plantId = shuffledPlants.pop();
     // #look into array.filter() and findbyindex 
@@ -287,23 +305,43 @@ let nextRound = $('#next');
 
 lightSlider.click(function() {
 
+
+
+
+    let pid = "#plants-" + String(this.id).slice(-1);
+
+
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
 
-        plant.addLight(1);
-        lightSlider.html('&#x1F31E;' + plant.light);
-    }
+        if (plant.id == pid.slice(1)) {
 
+            plant.addLight(1);
+            $('#' + String(this.id)).html('&#x1F31E;' + plant.light);
+
+        }
+
+
+    }
 
 })
 
 waterSlider.click(function() {
 
+    let pid = "#plants-" + String(this.id).slice(-1);
+
+
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
 
-        plant.addWater(1);
-        waterSlider.html('&#x1F4A7;' + plant.water);
+        if (plant.id == pid.slice(1)) {
+
+            plant.addWater(1);
+            $('#' + String(this.id)).html('&#x1F4A7;' + plant.water);
+
+        }
+
+
     }
 
 })
@@ -312,11 +350,21 @@ waterSlider.click(function() {
 
 nutrientSlider.click(function() {
 
+    let pid = "#plants-" + String(this.id).slice(-1);
+
+
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
 
-        plant.addNutrients(1);
-        nutrientSlider.html('&#x1F4A9;' + plant.nutrients);
+        if (plant.id == pid.slice(1)) {
+
+            plant.addNutrients(1);
+            console.log('.' + String(this.id));
+            $('#' + String(this.id)).html('&#x1F4A9;' + plant.nutrients);
+
+        }
+
+
     }
 
 
