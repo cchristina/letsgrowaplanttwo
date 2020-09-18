@@ -226,6 +226,9 @@ class Succulent extends Plant {
 }
 
 
+$('.light').hide();
+$('.water').hide();
+$('.nutrients').hide();
 
 let plantids = ["plants-1", "plants-2", "plants-3", "plants-4", "plants-5", "plants-6", "plants-7", "plants-8"]
 let shuffledPlants = [];
@@ -246,20 +249,17 @@ let plantIdx = Math.floor(Math.random() * shuffledPlants.length);
 
 // let myPlant = new Plant(myEnvironment, plantids.splice(plantIdx));
 var nextId = shuffledPlants.pop();
-console.log("next id: ", nextId);
+console.log("next id: ", nextId, nextId.slice(-1));
 let myPlant = new Plant(myEnvironment, nextId);
-$('#light-' + nextId).show();
-$('#water-' + nextId).show();
-$('#nutrients-' + nextId).show();
+$('#light-' + nextId.slice(-1)).show();
+$('#water-' + nextId.slice(-1)).show();
+$('#nutrients-' + nextId.slice(-1)).show();
 
 
 
 
 // let myPlant = new Succulent();
 
-$('.light').hide();
-$('.water').hide();
-$('.nutrients').hide();
 
 let lightSlider = $('.light');
 let waterSlider = $('.water');
