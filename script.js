@@ -76,7 +76,7 @@ class Environment {
 
     updatePlants() {
 
-        // this.determine();
+        this.determine();
 
         for (var i = 0; i < this.plants.length; i++) {
 
@@ -226,9 +226,9 @@ class Succulent extends Plant {
 }
 
 
-$('.light').hide();
-$('.water').hide();
-$('.nutrients').hide();
+// $('.light').hide();
+// $('.water').hide();
+// $('.nutrients').hide();
 
 let plantids = ["plants-1", "plants-2", "plants-3", "plants-4", "plants-5", "plants-6", "plants-7", "plants-8"]
 let shuffledPlants = [];
@@ -236,11 +236,11 @@ let shuffledPlants = [];
 var startingLen = plantids.length;
 for (i = 0; i < startingLen; i++) {
 
-
+    // 
 
     var idx = Math.floor(Math.random() * plantids.length);
     var nextPlant = plantids.splice(idx, 1);
-    console.log("LOOK: ", nextPlant, nextPlant[0]);
+    // console.log("LOOK: ", nextPlant, nextPlant[0]);
     shuffledPlants.push(nextPlant[0]);
 }
 
@@ -249,7 +249,7 @@ let plantIdx = Math.floor(Math.random() * shuffledPlants.length);
 
 // let myPlant = new Plant(myEnvironment, plantids.splice(plantIdx));
 var nextId = shuffledPlants.pop();
-console.log("next id: ", nextId, nextId.slice(-1));
+// console.log("next id: ", nextId, nextId.slice(-1));
 let myPlant = new Plant(myEnvironment, nextId);
 $('#light-' + nextId.slice(-1)).show();
 $('#water-' + nextId.slice(-1)).show();
@@ -281,7 +281,7 @@ nutrientSlider.html('&#x1F4A9;' + myEnvironment.nutrients);
 let newPlant = $('#plus');
 
 newPlant.click(function() {
-    // 
+
     // let plantIdx = Math.floor(Math.random() * plantids.length);
     let plantIdx = myEnvironment.plants.length;
 
@@ -309,6 +309,7 @@ lightSlider.click(function() {
 
 
     let pid = "#plants-" + String(this.id).slice(-1);
+    console.log(pid);
 
 
     for (let idx in myEnvironment.plants) {
@@ -328,7 +329,9 @@ lightSlider.click(function() {
 
 waterSlider.click(function() {
 
+
     let pid = "#plants-" + String(this.id).slice(-1);
+    console.log(pid);
 
 
     for (let idx in myEnvironment.plants) {
@@ -351,7 +354,7 @@ waterSlider.click(function() {
 nutrientSlider.click(function() {
 
     let pid = "#plants-" + String(this.id).slice(-1);
-
+    console.log(pid);
 
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
@@ -375,16 +378,23 @@ nutrientSlider.click(function() {
 
 nextRound.click(function() {
 
+
     // myPlant.updateHealth();
     myEnvironment.updatePlants();
 
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
-        // debugger
+        let pid = plant.id;
+        console.log("next button", pid);
 
-        lightSlider.html('&#x1F31E;' + plant.light);
-        waterSlider.html('&#x1F4A7;' + plant.water);
-        nutrientSlider.html('&#x1F4A9;' + plant.nutrients);
+
+        $('#light-' + pid.slice(-1)).html('&#x1F31E;' + plant.light);
+        $('#water-' + pid.slice(-1)).html('&#x1F4A7;' + plant.water);
+        $('#nutrients-' + pid.slice(-1)).html('&#x1F4A9;' + plant.nutrients);
+
+
+
+
         // console.log(plant.id);
 
         $("#" + plant.id).html(plant.show());
