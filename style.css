@@ -28,3 +28,13 @@ td {
     /* height: 50px; */
     vertical-align: bottom;
 }
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
+    display: block;
+}
