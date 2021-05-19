@@ -281,7 +281,6 @@ nutrientSlider.html('&#x1F4A9;' + myEnvironment.nutrients);
 let newPlant = $('#plus');
 
 newPlant.click(function() {
-
     // let plantIdx = Math.floor(Math.random() * plantids.length);
     let plantIdx = myEnvironment.plants.length;
 
@@ -305,24 +304,27 @@ let nextRound = $('#next');
 
 lightSlider.click(function() {
 
-
-
-
     let pid = "#plants-" + String(this.id).slice(-1);
     console.log(pid);
 
+    // [].forEach
+    // [].sort
+    // [].map
+    // [].filter
+    // [].reduce
+    // [].flatMap
+    // [].find
+    // [].findByIndex
 
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
-
-        if (plant.id == pid.slice(1)) {
-
+        console.log(pid.slice(-1), typeof(pid.slice()))
+        console.log(pid.slice(-1) == "0")
+        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
             plant.addLight(1);
-            $('#' + String(this.id)).html('&#x1F31E;' + plant.light);
-
+            // $('#' + String(this.id)).html('&#x1F31E;' + plant.light);
+            $(`#light-${plant.id.slice(-1)}`).html('&#x1F31E;' + plant.light);
         }
-
-
     }
 
 })
@@ -337,10 +339,11 @@ waterSlider.click(function() {
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
 
-        if (plant.id == pid.slice(1)) {
+        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
 
             plant.addWater(1);
-            $('#' + String(this.id)).html('&#x1F4A7;' + plant.water);
+            // $('#' + String(this.id)).html('&#x1F4A7;' + plant.water);
+            $(`#water-${plant.id.slice(-1)}`).html('&#x1F4A7;' + plant.water);
 
         }
 
@@ -359,11 +362,12 @@ nutrientSlider.click(function() {
     for (let idx in myEnvironment.plants) {
         let plant = myEnvironment.plants[idx];
 
-        if (plant.id == pid.slice(1)) {
+        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
 
             plant.addNutrients(1);
             console.log('.' + String(this.id));
-            $('#' + String(this.id)).html('&#x1F4A9;' + plant.nutrients);
+            // $('#' + String(this.id)).html('&#x1F4A9;' + plant.nutrients);
+            $(`#nutrients-${plant.id.slice(-1)}`).html('&#x1F4A9;' + plant.nutrients);
 
         }
 
