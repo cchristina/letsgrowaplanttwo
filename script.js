@@ -187,7 +187,7 @@ class Plant {
 
     }
 
-    show() {
+    display() {
         let base = "";
         if (this.last == 1) {
             base = "<br>&#x1F331;"
@@ -414,7 +414,7 @@ nextRound.click(function() {
         $('#water-' + pid.slice(-1)).html('&#x1F4A7;' + plant.water);
         $('#nutrients-' + pid.slice(-1)).html('&#x1F4A9;' + plant.nutrients);
 
-        $("#" + plant.id).html(plant.show());
+        $("#" + plant.id).html(plant.display());
 
     })
 
