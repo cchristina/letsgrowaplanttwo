@@ -76,23 +76,25 @@ class Environment {
 
     updatePlants() {
 
-        this.determine();
+            this.determine();
 
-        for (var i = 0; i < this.plants.length; i++) {
+            (this.plants).forEach((currPlant) => {
+                console.log(this)
+                currPlant.addLight(this.light);
 
-            this.plants[i].addLight(this.light);
-            this.plants[i].addWater(this.water);
-            this.plants[i].addNutrients(this.nutrients);
+                currPlant.addWater(this.water);
 
-            this.plants[i].updateHealth();
+                currPlant.addNutrients(this.nutrients);
 
-        }
+                currPlant.updateHealth();
+            })
 
-        this.water = 0;
-        this.light = 0;
-        this.nutrients = 0;
 
-    }
+            this.water = 0;
+            this.light = 0;
+            this.nutrients = 0;
+
+        } //);
 
 
 }
@@ -305,7 +307,6 @@ let nextRound = $('#next');
 lightSlider.click(function() {
 
     let pid = "#plants-" + String(this.id).slice(-1);
-    console.log(pid);
 
     // [].forEach
     // [].sort
@@ -316,95 +317,107 @@ lightSlider.click(function() {
     // [].find
     // [].findByIndex
 
-    for (let idx in myEnvironment.plants) {
-        let plant = myEnvironment.plants[idx];
-        console.log(pid.slice(-1), typeof(pid.slice()))
-        console.log(pid.slice(-1) == "0")
-        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
-            plant.addLight(1);
-            // $('#' + String(this.id)).html('&#x1F31E;' + plant.light);
+
+
+    // global affect everything code path
+    if (pid.slice(-1) == "0") {
+        // go and effect all plants
+        (myEnvironment.plants).forEach(plant => {
+            console.log(plant)
+            plant.addLight(1)
             $(`#light-${plant.id.slice(-1)}`).html('&#x1F31E;' + plant.light);
-        }
+
+
+        })
+    } else {
+        let matchingPlant = myEnvironment.plants.find(x => x.id == pid.slice(1))
+        matchingPlant.addLight(1)
+        $(`#light-${matchingPlant.id.slice(-1)}`).html('&#x1F31E;' + matchingPlant.light);
+
     }
+
 
 })
 
 waterSlider.click(function() {
 
-
     let pid = "#plants-" + String(this.id).slice(-1);
-    console.log(pid);
 
 
-    for (let idx in myEnvironment.plants) {
-        let plant = myEnvironment.plants[idx];
 
-        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
 
-            plant.addWater(1);
-            // $('#' + String(this.id)).html('&#x1F4A7;' + plant.water);
+
+    // global affect everything code path
+    if (pid.slice(-1) == "0") {
+        // go and effect all plants
+        (myEnvironment.plants).forEach(plant => {
+            plant.addWater(1)
             $(`#water-${plant.id.slice(-1)}`).html('&#x1F4A7;' + plant.water);
 
-        }
 
+        })
+    } else {
+
+        let matchingPlant = myEnvironment.plants.find(x => x.id == pid.slice(1))
+        matchingPlant.addWater(1)
+        $(`#water-${matchingPlant.id.slice(-1)}`).html('&#x1F4A7;' + matchingPlant.water);
 
     }
 
-})
 
+})
 
 
 nutrientSlider.click(function() {
 
     let pid = "#plants-" + String(this.id).slice(-1);
-    console.log(pid);
 
-    for (let idx in myEnvironment.plants) {
-        let plant = myEnvironment.plants[idx];
 
-        if (plant.id == pid.slice(1) || pid.slice(-1) == "0") {
 
-            plant.addNutrients(1);
-            console.log('.' + String(this.id));
-            // $('#' + String(this.id)).html('&#x1F4A9;' + plant.nutrients);
+
+
+    // global affect everything code path
+    if (pid.slice(-1) == "0") {
+        // go and effect all plants
+        (myEnvironment.plants).forEach(plant => {
+            plant.addNutrients(1)
             $(`#nutrients-${plant.id.slice(-1)}`).html('&#x1F4A9;' + plant.nutrients);
 
-        }
 
+        })
+    } else {
+
+        let matchingPlant = myEnvironment.plants.find(x => x.id == pid.slice(1))
+        matchingPlant.addNutrients(1)
+        $(`#nutrients-${matchingPlant.id.slice(-1)}`).html('&#x1F4A9;' + matchingPlant.nutrients);
 
     }
 
 
-
-
-
 })
+
+
+
+
+
 
 nextRound.click(function() {
 
 
-    // myPlant.updateHealth();
     myEnvironment.updatePlants();
 
-    for (let idx in myEnvironment.plants) {
-        let plant = myEnvironment.plants[idx];
+    myEnvironment.plants.forEach((plant) => {
         let pid = plant.id;
-        console.log("next button", pid);
 
 
         $('#light-' + pid.slice(-1)).html('&#x1F31E;' + plant.light);
         $('#water-' + pid.slice(-1)).html('&#x1F4A7;' + plant.water);
         $('#nutrients-' + pid.slice(-1)).html('&#x1F4A9;' + plant.nutrients);
 
-
-
-
-        // console.log(plant.id);
-
         $("#" + plant.id).html(plant.show());
 
+    })
 
-    }
 
 
 
