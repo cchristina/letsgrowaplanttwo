@@ -422,3 +422,21 @@ nextRound.click(function() {
 
 
 })
+
+
+$('#save').click(function() {
+
+    //localStorage.setItem('myCat', 'Tom');
+    https: //developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+        alert("TODO")
+
+});
+
+
+$('#load').click(function() {
+
+    // const cat = localStorage.getItem('myCat');
+    https: //developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+        alert("TODO")
+
+});
